@@ -13,8 +13,8 @@
 		E53C666B1232589400B279E0 /* Tests.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = E53C66611232589400B279E0 /* Tests.xcdatamodel */; };
 		E53C666C1232589400B279E0 /* Fixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = E53C66621232589400B279E0 /* Fixtures.m */; };
 		E53C666D1232589400B279E0 /* SheepDataTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E53C66631232589400B279E0 /* SheepDataTest.m */; };
-		E594D056129183B8007018CF /* SheepDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E594D04E129183B8007018CF /* SheepDataManager.m */; };
-		E594D057129183B8007018CF /* SheepEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E594D050129183B8007018CF /* SheepEntity.m */; };
+		E5F2B2C5137BECBE0009AB6F /* SheepDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F2B2C2137BECBE0009AB6F /* SheepDataManager.m */; };
+		E5F2B2C6137BECBE0009AB6F /* SheepEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F2B2C4137BECBE0009AB6F /* SheepEntity.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -52,12 +52,12 @@
 		E53C66631232589400B279E0 /* SheepDataTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SheepDataTest.m; path = Tests/SheepDataTest.m; sourceTree = "<group>"; };
 		E5432D7B110CC8F800B9DF5C /* Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5432D7C110CC8F800B9DF5C /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
-		E594D04C129183B8007018CF /* SheepData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheepData.h; sourceTree = "<group>"; };
-		E594D04D129183B8007018CF /* SheepDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheepDataManager.h; sourceTree = "<group>"; };
-		E594D04E129183B8007018CF /* SheepDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SheepDataManager.m; sourceTree = "<group>"; };
-		E594D04F129183B8007018CF /* SheepEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheepEntity.h; sourceTree = "<group>"; };
-		E594D050129183B8007018CF /* SheepEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SheepEntity.m; sourceTree = "<group>"; };
 		E5C2E23412196A7C007F265B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		E5F2B2C0137BECBE0009AB6F /* SheepData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheepData.h; sourceTree = "<group>"; };
+		E5F2B2C1137BECBE0009AB6F /* SheepDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheepDataManager.h; sourceTree = "<group>"; };
+		E5F2B2C2137BECBE0009AB6F /* SheepDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SheepDataManager.m; sourceTree = "<group>"; };
+		E5F2B2C3137BECBE0009AB6F /* SheepEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheepEntity.h; sourceTree = "<group>"; };
+		E5F2B2C4137BECBE0009AB6F /* SheepEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SheepEntity.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,7 @@
 		0867D691FE84028FC02AAC07 /* GroovyFrog */ = {
 			isa = PBXGroup;
 			children = (
-				E594D04B129183B8007018CF /* SheepData */,
+				E5F2B2BF137BECBE0009AB6F /* SheepData */,
 				E5432D85110CCA0E00B9DF5C /* Tests */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -166,17 +166,16 @@
 			name = Tests;
 			sourceTree = "<group>";
 		};
-		E594D04B129183B8007018CF /* SheepData */ = {
+		E5F2B2BF137BECBE0009AB6F /* SheepData */ = {
 			isa = PBXGroup;
 			children = (
-				E594D04C129183B8007018CF /* SheepData.h */,
-				E594D04D129183B8007018CF /* SheepDataManager.h */,
-				E594D04E129183B8007018CF /* SheepDataManager.m */,
-				E594D04F129183B8007018CF /* SheepEntity.h */,
-				E594D050129183B8007018CF /* SheepEntity.m */,
+				E5F2B2C0137BECBE0009AB6F /* SheepData.h */,
+				E5F2B2C1137BECBE0009AB6F /* SheepDataManager.h */,
+				E5F2B2C2137BECBE0009AB6F /* SheepDataManager.m */,
+				E5F2B2C3137BECBE0009AB6F /* SheepEntity.h */,
+				E5F2B2C4137BECBE0009AB6F /* SheepEntity.m */,
 			);
-			name = SheepData;
-			path = OBSCoreData;
+			path = SheepData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,8 +253,8 @@
 				E53C666B1232589400B279E0 /* Tests.xcdatamodel in Sources */,
 				E53C666C1232589400B279E0 /* Fixtures.m in Sources */,
 				E53C666D1232589400B279E0 /* SheepDataTest.m in Sources */,
-				E594D056129183B8007018CF /* SheepDataManager.m in Sources */,
-				E594D057129183B8007018CF /* SheepEntity.m in Sources */,
+				E5F2B2C5137BECBE0009AB6F /* SheepDataManager.m in Sources */,
+				E5F2B2C6137BECBE0009AB6F /* SheepEntity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

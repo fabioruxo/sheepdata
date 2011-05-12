@@ -29,6 +29,6 @@
  
  * ****************************************************************/
 
-// Import this header file wherever you use OBSCoreData
+// Import this header file wherever you use SheepData
 #import "SheepDataManager.h"
-#import "OBSEntity.h"
+#import "SheepEntity.h"

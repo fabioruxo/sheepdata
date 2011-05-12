@@ -40,7 +40,7 @@
 #pragma mark Initialization
 /**
 	Initializes the Entity into a CoreData ManagedObjectContext.
-    You should always init an OBSEntity this way!
+    You should always init an SheepEntity this way!
  */
 - (id) initEntity;
 
@@ -54,7 +54,7 @@
 #pragma mark -
 #pragma mark Save 
 /**
-	Saves the shared ManagedObjectContext's state from whichever OBSEntity
+	Saves the shared ManagedObjectContext's state from whichever SheepEntity
  */
 + (BOOL) saveContext;
 

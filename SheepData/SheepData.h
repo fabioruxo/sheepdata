@@ -32,3 +32,4 @@
 // Import this header file wherever you use SheepData
 #import "SheepDataManager.h"
 #import "SheepEntity.h"
+#import "SheepImageToDataTransformer.h"

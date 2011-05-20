@@ -11,5 +11,4 @@
 @interface SheepImageToDataTransformer : NSValueTransformer 
 {
 }
-
 @end

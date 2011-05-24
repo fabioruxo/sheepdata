@@ -44,6 +44,12 @@
  */
 - (id) initEntity;
 
+/**
+ Initializes the Entity without a CoreData ManagedObjectContext.
+ Useful for temporary objects
+ */
+- (id) initNonEnitity;
+
 #pragma mark -
 #pragma mark Unique Identifier
 /**

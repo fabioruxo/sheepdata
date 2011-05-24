@@ -47,6 +47,14 @@ void ShowError(NSString* action, NSError* error);
 	return self;
 }
 
+- (id) initNonEnitity
+{
+    NSEntityDescription * entity = [NSEntityDescription entityForName:NSStringFromClass([self class]) 
+											   inManagedObjectContext:nil];
+	self = [self initWithEntity:entity insertIntoManagedObjectContext:nil];
+	return self;
+}
+
 #pragma mark -
 #pragma mark Fetching
 + (id) fetchEntityWhereProperty:(NSString *)aProperty equalsValue:(id)aValue

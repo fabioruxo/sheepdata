@@ -29,6 +29,11 @@
  
  * ****************************************************************/
 
+/*
+ *  "God's one and only voice is silence"
+ *                          (H.Melville)
+ */
+
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "SheepDataManager.h"

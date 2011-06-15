@@ -75,12 +75,13 @@ void ShowError(NSString* action, NSError* error);
 	
 	NSError *error;
 	NSArray *results = [[SheepDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
+    [request release];
     
 	if ([results count] > 0)
 	{
 		return [results objectAtIndex:0];
 	}
-    [request release];
+
 	return nil;
 }
 
@@ -113,11 +114,13 @@ void ShowError(NSString* action, NSError* error);
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate
 {
+
 	return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:nil];
 }
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor
 {
+
     return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
 }
 
@@ -170,7 +173,7 @@ void ShowError(NSString* action, NSError* error);
 + (NSString*) uniqueID;
 {
     CFUUIDRef uuidObj = CFUUIDCreate(nil);
-    NSString *newUUID = (NSString*)CFUUIDCreateString(nil, uuidObj);
+    NSString *newUUID = (NSString*) CFMakeCollectable(CFUUIDCreateString(nil, uuidObj));
     CFRelease(uuidObj);
     return [newUUID autorelease];
 }

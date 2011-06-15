@@ -235,6 +235,11 @@
     managedObjectContext = [[NSManagedObjectContext alloc] init];
     [managedObjectContext setPersistentStoreCoordinator: coordinator];
 	
+//    NSUndoManager *undoManager = [[NSUndoManager alloc] init];
+//    [undoManager setLevelsOfUndo:10];
+//    [managedObjectContext setUndoManager:undoManager];
+//    [undoManager release];
+    
     return managedObjectContext;
 }
 

@@ -120,16 +120,21 @@ void ShowError(NSString* action, NSError* error);
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor
 {
-
     return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
 }
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptors:(NSArray*) sortDescriptors
 {
+    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors andLimit:0];
+}
+
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit
+{
     NSString *entityName = [[self class] description];
 	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:[SheepDataManager sharedInstance].managedObjectContext];	
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	[request setEntity:tmpEntity];
+    if (aLimit >0) [request setFetchLimit:aLimit];
 	
 	[request setPredicate:aPredicate];
 	if (sortDescriptors) [request setSortDescriptors:sortDescriptors];

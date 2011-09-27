@@ -113,6 +113,9 @@
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptors:(NSArray*) sortDescriptors;
 
+/* Also sets a limit on entities being fetched */
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit;
+
 #pragma mark -
 #pragma mark Deleting
 /**

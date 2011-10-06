@@ -39,7 +39,9 @@
 #import "SheepDataManager.h"
 
 @interface SheepEntity : NSManagedObject
-{}
+{
+    NSManagedObjectContext *context;
+}
 
 #pragma mark -
 #pragma mark Initialization
@@ -48,6 +50,11 @@
     You should always init an SheepEntity this way!
  */
 - (id) initEntity;
+
+/*
+    For multithreading or whenever a specific context is needed
+ */
+- (id) initEntityInContext:(NSManagedObjectContext*)context;
 
 /**
  Initializes the Entity without a CoreData ManagedObjectContext.
@@ -69,6 +76,8 @@
  */
 + (BOOL) saveContext;
 
++ (BOOL) saveContext:(NSManagedObjectContext*) aContext;
+
 #pragma mark -
 #pragma mark Fetching
 /**
@@ -77,45 +86,66 @@
  */
 + (id) fetchEntityWhereProperty:(NSString *)aProperty equalsValue:(id)aValue;
 
++ (id) fetchEntityWhereProperty:(NSString *)aProperty equalsValue:(id)aValue inContext:(NSManagedObjectContext*) aContext;
+
 /**
 	fetches a single entity with a given predicate. Use this only if you are sure a single entity will be returned.
 	If more than one entity matches the property/value the first entity found will be returned.
  */
 + (id) fetchEntityWithPredicate:(NSPredicate*) aPredicate;
 
+/*
+ For multithreading or whenever a specific context is needed
+ */
++ (id) fetchEntityWithPredicate:(NSPredicate*) aPredicate inContext:(NSManagedObjectContext*) aContext;
+
 /**
 	fetches all entities with a given entity description
  */
 + (NSArray*) fetchEntities;
 
++ (NSArray*) fetchEntitiesInContext:(NSManagedObjectContext*) aContext;
 /**
  fetches all entities with a given entity description in a given order
  */
 + (NSArray*) fetchEntitiesWithSortDescriptor:(NSSortDescriptor*)sortDescriptor;
+
+/*
+ For multithreading or whenever a specific context is needed
+ */
++ (NSArray*) fetchEntitiesWithSortDescriptor:(NSSortDescriptor*) sortDescriptor inContext:(NSManagedObjectContext*)aContext;
 
 /**
 	Convenience method for fetching a list of entities by property/value.
  */
 + (NSArray*) fetchEntitiesWhereProperty:(NSString *)aProperty equalsValue:(id) aValue;
 
++ (NSArray*) fetchEntitiesWhereProperty:(NSString *)aProperty equalsValue:(id) aValue inContext:(NSManagedObjectContext*) aContext;
+
 /**
 	Convenience method for fetching a list of entities given a predicate
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate;
 
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate inContext:(NSManagedObjectContext*)aContext;
 /**
 	Convenience method for fetching a list of entities given a predicate and a sort descriptor
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor;
+
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor inContext:(NSManagedObjectContext*)aContext;
 
 /**
  Convenience method for fetching a list of entities given a predicate and a sort descriptor
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptors:(NSArray*) sortDescriptors;
 
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptors:(NSArray*) sortDescriptors inContext:(NSManagedObjectContext*) aContext;
+
 /* Also sets a limit on entities being fetched */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit;
 
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit inContext:(NSManagedObjectContext*)aContext;
 #pragma mark -
 #pragma mark Deleting
 /**
@@ -123,10 +153,13 @@
  */
 - (void) deleteEntity;
 
+- (void) deleteEntityInContext:(NSManagedObjectContext*)aContext;
 /**
 	removes an array of entities in one shot
  */
 + (void) deleteEntities: (NSArray*) entities;
+
++ (void) deleteEntities: (NSArray*) entities inContext:(NSManagedObjectContext*) aContext;
 
 #pragma mark -
 #pragma mark Existence check
@@ -135,10 +168,14 @@
  */
 + (BOOL) checkIfEntityExistsWhereProperty:(NSString *)aProperty equalsValue:(id) aValue;
 
++ (BOOL) checkIfEntityExistsWhereProperty:(NSString *)aProperty equalsValue:(id) aValue inContext:(NSManagedObjectContext*)aContext;
+
 /**
  checks whether an entity with a given predicate already exists. Useful for entities with unique-like fields.
  */
 + (BOOL) checkIfEntityExistsWithPredicate:(NSPredicate*) aPredicate;
+
++ (BOOL) checkIfEntityExistsWithPredicate:(NSPredicate*) aPredicate inContext:(NSManagedObjectContext*)aContext;
 
 #pragma mark -
 #pragma mark Max Value
@@ -147,9 +184,12 @@
  */
 + (id) fetchEntityWhithMaxValueForKey:(NSString*)key;
 
++ (id) fetchEntityWhithMaxValueForKey:(NSString*)key inContext:(NSManagedObjectContext*)aContext;
+
 /**
  * Fetches the entity with the max value for a given property with a given predicate
  */
 + (id) fetchEntityWhithMaxValueForKey:(NSString*)key andPredicate:(NSPredicate*)predicate;
 
++ (id) fetchEntityWhithMaxValueForKey:(NSString*)key andPredicate:(NSPredicate*)predicate inContext:(NSManagedObjectContext*)aContext;
 @end

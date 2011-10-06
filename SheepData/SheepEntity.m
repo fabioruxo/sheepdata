@@ -41,9 +41,15 @@ void ShowError(NSString* action, NSError* error);
 #pragma mark Initialization
 - (id) initEntity 
 {
-	NSEntityDescription * entity = [NSEntityDescription entityForName:NSStringFromClass([self class]) 
-											   inManagedObjectContext:[SheepDataManager sharedInstance].managedObjectContext];
-	self = [self initWithEntity:entity insertIntoManagedObjectContext:[SheepDataManager sharedInstance].managedObjectContext];
+    self = [self initEntityInContext:[SheepDataManager sharedInstance].managedObjectContext];
+    return self;
+}
+
+- (id) initEntityInContext:(NSManagedObjectContext*)aContext
+{
+    NSEntityDescription * entity = [NSEntityDescription entityForName:NSStringFromClass([self class]) 
+											   inManagedObjectContext:aContext];
+	self = [self initWithEntity:entity insertIntoManagedObjectContext:aContext];
 	return self;
 }
 
@@ -59,29 +65,39 @@ void ShowError(NSString* action, NSError* error);
 #pragma mark Fetching
 + (id) fetchEntityWhereProperty:(NSString *)aProperty equalsValue:(id)aValue
 {
+    return [self fetchEntityWhereProperty:aProperty equalsValue:aValue inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (id) fetchEntityWhereProperty:(NSString *)aProperty equalsValue:(id)aValue inContext:(NSManagedObjectContext*) aContext
+{
 	NSPredicate *predicate = [NSPredicate predicateWithFormat: @"%K == %@", aProperty, aValue];
-    return [self fetchEntityWithPredicate:predicate];
+    return [self fetchEntityWithPredicate:predicate inContext:aContext];
 }
 
 + (id) fetchEntityWithPredicate:(NSPredicate*) aPredicate
 {
-	NSString *entityName = [[self class] description];
+    return [self fetchEntityWithPredicate:aPredicate inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (id) fetchEntityWithPredicate:(NSPredicate*) aPredicate inContext:(NSManagedObjectContext*) aContext
+{
+    NSString *entityName = [[self class] description];
 	
-	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:[SheepDataManager sharedInstance].managedObjectContext];	
+	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:aContext];	
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	[request setEntity:tmpEntity];
 	[request setFetchLimit:1];
 	[request setPredicate:aPredicate];
 	
 	NSError *error;
-	NSArray *results = [[SheepDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
+	NSArray *results = [aContext executeFetchRequest:request error:&error];
     [request release];
     
 	if ([results count] > 0)
 	{
 		return [results objectAtIndex:0];
 	}
-
+    
 	return nil;
 }
 
@@ -90,17 +106,27 @@ void ShowError(NSString* action, NSError* error);
 	return [self fetchEntitiesWithSortDescriptor:nil];
 }
 
++ (NSArray*) fetchEntitiesInContext:(NSManagedObjectContext*) aContext
+{
+    return [self fetchEntitiesWithSortDescriptor:nil inContext:aContext];
+}
+
 + (NSArray*) fetchEntitiesWithSortDescriptor:(NSSortDescriptor*) sortDescriptor
 {
+    return [self fetchEntitiesWithSortDescriptor:sortDescriptor inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (NSArray*) fetchEntitiesWithSortDescriptor:(NSSortDescriptor*) sortDescriptor inContext:(NSManagedObjectContext*)aContext
+{
 	NSString *entityName = [[self class] description];
-	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:[SheepDataManager sharedInstance].managedObjectContext];	
+	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:aContext];	
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	[request setEntity:tmpEntity];
     
     if (sortDescriptor) [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	
 	NSError *error;
-	NSArray *results = [[SheepDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
+	NSArray *results = [aContext executeFetchRequest:request error:&error];
 	[request release];
 	
 	return results;
@@ -108,30 +134,54 @@ void ShowError(NSString* action, NSError* error);
 
 + (NSArray*) fetchEntitiesWhereProperty:(NSString *)aProperty equalsValue:(id) aValue
 {
-	NSPredicate *predicate = [NSPredicate predicateWithFormat: @"%K == %@", aProperty, aValue];
-    return [self fetchEntitiesWithPredicate:predicate];
+    return [self fetchEntitiesWhereProperty:aProperty equalsValue:aValue inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (NSArray*) fetchEntitiesWhereProperty:(NSString *)aProperty equalsValue:(id) aValue inContext:(NSManagedObjectContext*) aContext
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"%K == %@", aProperty, aValue];
+    return [self fetchEntitiesWithPredicate:predicate inContext:aContext];
 }
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate
 {
+	return [self fetchEntitiesWithPredicate:aPredicate inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
 
-	return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:nil];
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate inContext:(NSManagedObjectContext*)aContext
+{
+    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:nil inContext:aContext];
 }
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor
 {
-    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
+    return [self fetchEntitiesWithPredicate: aPredicate andSortDescriptor:aSortDescriptor inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor inContext:(NSManagedObjectContext*)aContext
+{
+    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:[NSArray arrayWithObject:aSortDescriptor] inContext:aContext];
 }
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptors:(NSArray*) sortDescriptors
 {
-    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors andLimit:0];
+    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptors:(NSArray*) sortDescriptors inContext:(NSManagedObjectContext*) aContext
+{
+    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors andLimit:0 inContext:aContext];
 }
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit
 {
+    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors andLimit:aLimit inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit inContext:(NSManagedObjectContext*)aContext
+{
     NSString *entityName = [[self class] description];
-	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:[SheepDataManager sharedInstance].managedObjectContext];	
+	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:aContext];	
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	[request setEntity:tmpEntity];
     if (aLimit >0) [request setFetchLimit:aLimit];
@@ -140,7 +190,7 @@ void ShowError(NSString* action, NSError* error);
 	if (sortDescriptors) [request setSortDescriptors:sortDescriptors];
 	
 	NSError *error;
-	NSArray *results = [[SheepDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
+	NSArray *results = [aContext executeFetchRequest:request error:&error];
     [request release];
 	return results;	
 }
@@ -149,8 +199,13 @@ void ShowError(NSString* action, NSError* error);
 #pragma mark Saving
 + (BOOL) saveContext
 {
+    return [self saveContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (BOOL) saveContext:(NSManagedObjectContext*) aContext
+{
 	NSError *saveErrorTask = nil;
-	BOOL success = [[SheepDataManager sharedInstance].managedObjectContext save:&saveErrorTask];
+	BOOL success = [aContext save:&saveErrorTask];
 	if (!success) 
 	{
 		ShowError(@"Error in saveContext:", saveErrorTask);
@@ -162,14 +217,24 @@ void ShowError(NSString* action, NSError* error);
 #pragma mark Deleting
 - (void) deleteEntity
 {
-	[[SheepDataManager sharedInstance].managedObjectContext deleteObject:self];
+	[self deleteEntityInContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
+- (void) deleteEntityInContext:(NSManagedObjectContext*)aContext
+{
+    [aContext deleteObject:self];
 }
 
 + (void) deleteEntities: (NSArray*) entities;
 {
-	for (id tmp in entities)
+	[self deleteEntities:entities inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (void) deleteEntities: (NSArray*) entities inContext:(NSManagedObjectContext*) aContext
+{
+    for (id tmp in entities)
 	{
-		[[SheepDataManager sharedInstance].managedObjectContext deleteObject:tmp];
+		[aContext deleteObject:tmp];
 	}
 }
 
@@ -191,9 +256,21 @@ void ShowError(NSString* action, NSError* error);
 	else return false;
 }
 
++ (BOOL) checkIfEntityExistsWhereProperty:(NSString *)aProperty equalsValue:(id) aValue inContext:(NSManagedObjectContext*)aContext
+{
+    if([[self fetchEntitiesWhereProperty:aProperty equalsValue:aValue inContext:aContext] count]>0) return true;
+	else return false;
+}
+
 + (BOOL) checkIfEntityExistsWithPredicate:(NSPredicate*) aPredicate
 {
 	if([[self fetchEntitiesWithPredicate:aPredicate] count]>0) return true;
+	else return false;
+}
+
++ (BOOL) checkIfEntityExistsWithPredicate:(NSPredicate*) aPredicate inContext:(NSManagedObjectContext*)aContext
+{
+	if([[self fetchEntitiesWithPredicate:aPredicate inContext:aContext] count]>0) return true;
 	else return false;
 }
 
@@ -201,13 +278,23 @@ void ShowError(NSString* action, NSError* error);
 #pragma mark Max Value
 + (id) fetchEntityWhithMaxValueForKey:(NSString*)key
 {
-    return [self fetchEntityWhithMaxValueForKey:key andPredicate:nil];
+    return [self fetchEntityWhithMaxValueForKey:key andPredicate:nil inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (id) fetchEntityWhithMaxValueForKey:(NSString*)key inContext:(NSManagedObjectContext*)aContext
+{
+    return [self fetchEntityWhithMaxValueForKey:key andPredicate:nil inContext:aContext];
 }
 
 + (id) fetchEntityWhithMaxValueForKey:(NSString*)key andPredicate:(NSPredicate*)predicate
 {
+    return [self fetchEntityWhithMaxValueForKey:key andPredicate:predicate inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (id) fetchEntityWhithMaxValueForKey:(NSString*)key andPredicate:(NSPredicate*)predicate inContext:(NSManagedObjectContext*)aContext
+{
     NSString *entityName = [[self class] description];
-	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:[SheepDataManager sharedInstance].managedObjectContext];	
+	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:aContext];	
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	[request setEntity:tmpEntity];
     if (predicate) [request setPredicate:predicate];
@@ -221,7 +308,7 @@ void ShowError(NSString* action, NSError* error);
     [request setFetchLimit:1];
     
     NSError *error = nil;
-    NSArray *results = [[SheepDataManager sharedInstance].managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *results = [aContext executeFetchRequest:request error:&error];
     [request release];
     if (results == nil) 
     {

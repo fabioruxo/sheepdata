@@ -40,11 +40,16 @@
 
 @interface SheepEntity : NSManagedObject
 {
-    NSManagedObjectContext *context;
+    NSManagedObjectContext *currentContext;
 }
+
+@property (readwrite, assign) NSManagedObjectContext *currentContext;
 
 #pragma mark -
 #pragma mark Initialization
+
++ (NSManagedObjectContext*) defaultContext;
+
 /**
 	Initializes the Entity into a CoreData ManagedObjectContext.
     You should always init an SheepEntity this way!
@@ -86,6 +91,9 @@
  */
 + (id) fetchEntityWhereProperty:(NSString *)aProperty equalsValue:(id)aValue;
 
+/** 
+ For multithreading with a different context passed in
+ */
 + (id) fetchEntityWhereProperty:(NSString *)aProperty equalsValue:(id)aValue inContext:(NSManagedObjectContext*) aContext;
 
 /**
@@ -103,8 +111,11 @@
 	fetches all entities with a given entity description
  */
 + (NSArray*) fetchEntities;
-
+/** 
+ For multithreading with a different context passed in
+ */
 + (NSArray*) fetchEntitiesInContext:(NSManagedObjectContext*) aContext;
+
 /**
  fetches all entities with a given entity description in a given order
  */
@@ -119,20 +130,27 @@
 	Convenience method for fetching a list of entities by property/value.
  */
 + (NSArray*) fetchEntitiesWhereProperty:(NSString *)aProperty equalsValue:(id) aValue;
-
+/** 
+ For multithreading with a different context passed in
+ */
 + (NSArray*) fetchEntitiesWhereProperty:(NSString *)aProperty equalsValue:(id) aValue inContext:(NSManagedObjectContext*) aContext;
 
 /**
 	Convenience method for fetching a list of entities given a predicate
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate;
-
+/** 
+ For multithreading with a different context passed in
+ */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate inContext:(NSManagedObjectContext*)aContext;
+
 /**
 	Convenience method for fetching a list of entities given a predicate and a sort descriptor
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor;
-
+/** 
+ For multithreading with a different context passed in
+ */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor inContext:(NSManagedObjectContext*)aContext;
 
 /**
@@ -140,12 +158,19 @@
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptors:(NSArray*) sortDescriptors;
 
+/** 
+ For multithreading with a different context passed in
+ */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptors:(NSArray*) sortDescriptors inContext:(NSManagedObjectContext*) aContext;
 
 /* Also sets a limit on entities being fetched */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit;
 
+/** 
+ For multithreading with a different context passed in
+ */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit inContext:(NSManagedObjectContext*)aContext;
+
 #pragma mark -
 #pragma mark Deleting
 /**
@@ -153,7 +178,6 @@
  */
 - (void) deleteEntity;
 
-- (void) deleteEntityInContext:(NSManagedObjectContext*)aContext;
 /**
 	removes an array of entities in one shot
  */

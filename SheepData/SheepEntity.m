@@ -37,6 +37,19 @@ void ShowError(NSString* action, NSError* error);
 
 @implementation SheepEntity : NSManagedObject
 
+@synthesize currentContext;
+
++ (NSManagedObjectContext*) defaultContext
+{
+    return [SheepDataManager sharedInstance].managedObjectContext;  
+}
+
+- (NSManagedObjectContext*) currentContext
+{
+    if (IsNotEmpty(currentContext)) return currentContext;
+    return [SheepDataManager sharedInstance].managedObjectContext;
+}
+
 #pragma mark -
 #pragma mark Initialization
 - (id) initEntity 
@@ -50,6 +63,7 @@ void ShowError(NSString* action, NSError* error);
     NSEntityDescription * entity = [NSEntityDescription entityForName:NSStringFromClass([self class]) 
 											   inManagedObjectContext:aContext];
 	self = [self initWithEntity:entity insertIntoManagedObjectContext:aContext];
+    self.currentContext = aContext;
 	return self;
 }
 
@@ -97,7 +111,6 @@ void ShowError(NSString* action, NSError* error);
 	{
 		return [results objectAtIndex:0];
 	}
-    
 	return nil;
 }
 
@@ -217,12 +230,7 @@ void ShowError(NSString* action, NSError* error);
 #pragma mark Deleting
 - (void) deleteEntity
 {
-	[self deleteEntityInContext:[SheepDataManager sharedInstance].managedObjectContext];
-}
-
-- (void) deleteEntityInContext:(NSManagedObjectContext*)aContext
-{
-    [aContext deleteObject:self];
+	[self.currentContext deleteObject:self];
 }
 
 + (void) deleteEntities: (NSArray*) entities;

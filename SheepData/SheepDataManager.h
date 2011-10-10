@@ -78,6 +78,8 @@
  */
 + (SheepDataManager *)sharedInstance;
 
+- (void) setTestMode:(NSString*)testedAppName;
+
 - (NSManagedObjectContext *) newManagedObjectContext;
 
 @end

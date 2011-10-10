@@ -47,10 +47,10 @@
 #pragma mark -
 #pragma mark Init/Dealloc
 
+static SheepDataManager *sharedSingleton;
+
 + (SheepDataManager *) sharedInstance
-{
-	static SheepDataManager *sharedSingleton;
-	
+{	
 	@synchronized(self)
 	{
 		if (!sharedSingleton)
@@ -68,6 +68,15 @@
 		}
 	}
 	return sharedSingleton;
+}
+
+- (void) setTestMode:(NSString*) testedAppName
+{
+    NSString *targetString = testedAppName;
+    sharedSingleton.coreDataFolder = targetString;
+    
+    sharedSingleton.coreDataFilename = @"test_data";
+    sharedSingleton.managedObjectModelName = targetString;
 }
 
 - (void) dealloc
@@ -169,7 +178,8 @@
     NSString *applicationSupportDirectory = [self applicationSupportDirectory];
     NSError *error = nil;
     
-    if ( ![fileManager fileExistsAtPath:applicationSupportDirectory isDirectory:NULL] ) {
+    if ( ![fileManager fileExistsAtPath:applicationSupportDirectory isDirectory:NULL] ) 
+    {
 		if (![fileManager createDirectoryAtPath:applicationSupportDirectory withIntermediateDirectories:NO attributes:nil error:&error]) {
             NSAssert(NO, ([NSString stringWithFormat:@"Failed to create App Support directory %@ : %@", applicationSupportDirectory,error]));
             NSLog(@"Error creating application support directory at %@ : %@",applicationSupportDirectory,error);

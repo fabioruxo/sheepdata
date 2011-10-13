@@ -60,7 +60,6 @@ void ShowError(NSString* action, NSError* error);
 
 - (id) initEntityInContext:(NSManagedObjectContext*)aContext
 {
-    OBSLog(@"Context: %@", aContext);
     NSEntityDescription * entity = [NSEntityDescription entityForName:NSStringFromClass([self class]) 
 											   inManagedObjectContext:aContext];
 	self = [self initWithEntity:entity insertIntoManagedObjectContext:aContext];

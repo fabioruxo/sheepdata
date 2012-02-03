@@ -46,7 +46,7 @@ void ShowError(NSString* action, NSError* error);
 
 - (NSManagedObjectContext*) currentContext
 {
-    if (IsNotEmpty(currentContext)) return currentContext;
+    if (currentContext) return currentContext;
     return [SheepDataManager sharedInstance].managedObjectContext;
 }
 
@@ -241,6 +241,11 @@ void ShowError(NSString* action, NSError* error);
 - (void) deleteEntity
 {
 	[self.currentContext deleteObject:self];
+}
+
+- (void) deleteEntityInContext:(NSManagedObjectContext*)aContext
+{
+	[aContext deleteObject:self];
 }
 
 + (void) deleteEntities: (NSArray*) entities;

@@ -182,6 +182,8 @@
  */
 - (void) deleteEntity;
 
+- (void) deleteEntityInContext:(NSManagedObjectContext*)aContext;
+
 /**
 	removes an array of entities in one shot
  */

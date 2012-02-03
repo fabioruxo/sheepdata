@@ -166,10 +166,14 @@
 /* Also sets a limit on entities being fetched */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit;
 
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit andOffset:(NSInteger)anOffset;
+
 /** 
  For multithreading with a different context passed in
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit inContext:(NSManagedObjectContext*)aContext;
+
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit andOffset:(NSInteger)anOffset inContext:(NSManagedObjectContext*)aContext;
 
 #pragma mark -
 #pragma mark Deleting
@@ -214,6 +218,11 @@
  * Fetches the entity with the max value for a given property with a given predicate
  */
 + (id) fetchEntityWhithMaxValueForKey:(NSString*)key andPredicate:(NSPredicate*)predicate;
-
 + (id) fetchEntityWhithMaxValueForKey:(NSString*)key andPredicate:(NSPredicate*)predicate inContext:(NSManagedObjectContext*)aContext;
+
+/**
+ * Counts all ojbects of a given type
+ */
++ (NSInteger) countWithPredicate:(NSPredicate*)aPredicate;
++ (NSInteger) countWithPredicate:(NSPredicate*)aPredicate inContext:(NSManagedObjectContext*) aContext;
 @end

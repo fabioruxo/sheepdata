@@ -59,7 +59,7 @@ static SheepDataManager *sharedSingleton;
 		
             // The default folder will have the name of your Bundle and be in the user's application support library
             NSArray * bundleStringParts = [[[NSBundle bundleForClass:[self class]] bundleIdentifier] componentsSeparatedByString: @"."];
-			int last = [bundleStringParts count] - 1 ;
+			int last = (int)[bundleStringParts count] - 1 ;
 			NSString *targetString = [bundleStringParts objectAtIndex:last];
 			sharedSingleton.coreDataFolder = targetString;
             

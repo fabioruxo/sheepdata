@@ -188,17 +188,27 @@ void ShowError(NSString* action, NSError* error);
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit
 {
-    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors andLimit:aLimit inContext:[SheepDataManager sharedInstance].managedObjectContext];
+    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors andLimit:aLimit andOffset:0];
+}
+
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit andOffset:(NSInteger)anOffset 
+{
+    return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors andLimit:aLimit andOffset:anOffset inContext:[SheepDataManager sharedInstance].managedObjectContext];
 }
 
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit inContext:(NSManagedObjectContext*)aContext
+{
+   return [self fetchEntitiesWithPredicate:aPredicate andSortDescriptors:sortDescriptors andLimit:aLimit andOffset:0 inContext:aContext];
+}
+
++ (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit andOffset:(NSInteger)anOffset inContext:(NSManagedObjectContext*)aContext
 {
     NSString *entityName = [[self class] description];
 	NSEntityDescription * tmpEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:aContext];	
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	[request setEntity:tmpEntity];
     if (aLimit >0) [request setFetchLimit:aLimit];
-	
+    if (anOffset>0) [request setFetchOffset:anOffset];	
 	[request setPredicate:aPredicate];
 	if (sortDescriptors) [request setSortDescriptors:sortDescriptors];
 	
@@ -323,6 +333,28 @@ void ShowError(NSString* action, NSError* error);
         ShowError(@"Error in fetchEntityWhithMaxValueForKey:andPredicate:\n", error);
     }
     return [results objectAtIndex:0];
+}
+
++ (NSInteger) countWithPredicate:(NSPredicate*)aPredicate
+{
+    return [self countWithPredicate:aPredicate inContext:[SheepDataManager sharedInstance].managedObjectContext];
+}
+
++ (NSInteger) countWithPredicate:(NSPredicate*)aPredicate inContext:(NSManagedObjectContext*) aContext
+{
+    NSString *entityName = [[self class] description];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:entityName inManagedObjectContext:aContext]];
+    [request setPredicate:aPredicate];
+    [request setIncludesSubentities:NO]; //Omit subentities. Default is YES (i.e. include subentities)
+    
+    NSError *err;
+    NSUInteger count = [aContext countForFetchRequest:request error:&err];
+    if(count == NSNotFound) 
+    {
+        count = 0;
+    }
+    return count;
 }
 
 #pragma mark -

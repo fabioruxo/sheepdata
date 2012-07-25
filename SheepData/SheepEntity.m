@@ -240,7 +240,7 @@ void ShowError(NSString* action, NSError* error);
 #pragma mark Deleting
 - (void) deleteEntity
 {
-	[self.currentContext deleteObject:self];
+	[[SheepDataManager sharedInstance].managedObjectContext deleteObject:self];
 }
 
 - (void) deleteEntityInContext:(NSManagedObjectContext*)aContext

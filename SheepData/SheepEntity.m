@@ -266,7 +266,7 @@ void ShowError(NSString* action, NSError* error);
 + (NSString*) uniqueID;
 {
     CFUUIDRef uuidObj = CFUUIDCreate(nil);
-    NSString *newUUID = (NSString*) CFMakeCollectable(CFUUIDCreateString(nil, uuidObj));
+    NSString *newUUID = ( NSString*) CFMakeCollectable(CFUUIDCreateString(nil, uuidObj));
     CFRelease(uuidObj);
     return [newUUID autorelease];
 }

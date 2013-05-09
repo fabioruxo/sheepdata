@@ -54,7 +54,7 @@
 - (id)reverseTransformedValue:(id)value 
 {
     NSImage *uiImage = [[NSImage alloc] initWithData:value];
-	return [uiImage autorelease];;
+	return uiImage;;
 }
 
 @end

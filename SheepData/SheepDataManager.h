@@ -62,13 +62,13 @@
     NSManagedObjectContext *managedObjectContext;
 }
 
-@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
-@property (retain, readwrite) NSString *coreDataFolder;
-@property (retain, readwrite) NSString *coreDataFilename;
-@property (retain, readwrite) NSString *externalRecordExtension;
-@property (retain, readwrite) NSString *managedObjectModelName;
+@property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
+@property (strong, readwrite) NSString *coreDataFolder;
+@property (strong, readwrite) NSString *coreDataFilename;
+@property (strong, readwrite) NSString *externalRecordExtension;
+@property (strong, readwrite) NSString *managedObjectModelName;
 
 /**
  * If nothing is done some assumptions are made:

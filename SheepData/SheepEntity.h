@@ -40,10 +40,10 @@
 
 @interface SheepEntity : NSManagedObject
 {
-    NSManagedObjectContext *currentContext;
+    NSManagedObjectContext *__unsafe_unretained currentContext;
 }
 
-@property (readwrite, assign) NSManagedObjectContext *currentContext;
+@property (readwrite, unsafe_unretained) NSManagedObjectContext *currentContext;
 
 #pragma mark -
 #pragma mark Initialization

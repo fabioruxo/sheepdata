@@ -79,26 +79,6 @@ static SheepDataManager *sharedSingleton;
     sharedSingleton.managedObjectModelName = targetString;
 }
 
-- (void) dealloc
-{
-	[coreDataFilename release];
-	[externalRecordExtension release];
-	[persistentStoreCoordinator release];
-	[managedObjectModel release];
-	[managedObjectContext release];
-	[super dealloc];
-}
-
-- (void) finalize
-{
-    coreDataFilename = nil;
-    externalRecordExtension = nil;
-    persistentStoreCoordinator = nil;
-    managedObjectModel = nil;
-    managedObjectContext = nil;
-    [super finalize];
-}
-
 #pragma mark -
 #pragma mark Application dir / ext. records
 
@@ -150,7 +130,7 @@ static SheepDataManager *sharedSingleton;
 	}		
 	else
 	{
-		managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];   
+		managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];   
 	}
 	
     return managedObjectModel;
@@ -170,7 +150,7 @@ static SheepDataManager *sharedSingleton;
     if (!mom) 
 	{
         NSAssert(NO, @"Managed object model is nil");
-        NSLog(@"%@:%@ No model to generate a store from", [self class], _cmd);
+        NSLog(@"%@:No model to generate a store from", [self class]);
         return nil;
     }
 	
@@ -216,7 +196,7 @@ static SheepDataManager *sharedSingleton;
 														options:storeOptions 
 														  error:&error]){
 		NSLog(@"CoreDataManager Error: %@", error);
-        [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
+        persistentStoreCoordinator = nil;
         return nil;
     }    
 	
@@ -245,10 +225,9 @@ static SheepDataManager *sharedSingleton;
     managedObjectContext = [[NSManagedObjectContext alloc] init];
     [managedObjectContext setPersistentStoreCoordinator: coordinator];
 	
-//    NSUndoManager *undoManager = [[NSUndoManager alloc] init];
-//    [undoManager setLevelsOfUndo:10];
-//    [managedObjectContext setUndoManager:undoManager];
-//    [undoManager release];
+    NSUndoManager *undoManager = [[NSUndoManager alloc] init];
+    [undoManager setLevelsOfUndo:999];
+    [managedObjectContext setUndoManager:undoManager];
     
     return managedObjectContext;
 }

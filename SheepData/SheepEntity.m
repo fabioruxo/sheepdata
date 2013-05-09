@@ -37,7 +37,7 @@ void ShowError(NSString* action, NSError* error);
 
 @implementation SheepEntity : NSManagedObject
 
-@synthesize currentContext;
+//@synthesize currentContext;
 
 + (NSManagedObjectContext*) defaultContext
 {
@@ -48,6 +48,11 @@ void ShowError(NSString* action, NSError* error);
 {
     if (currentContext) return currentContext;
     return [SheepDataManager sharedInstance].managedObjectContext;
+}
+
+-(void)setCurrentContext:(NSManagedObjectContext *)newCurrentContext
+{
+    currentContext = newCurrentContext;
 }
 
 #pragma mark -
@@ -105,7 +110,6 @@ void ShowError(NSString* action, NSError* error);
 	
 	NSError *error;
 	NSArray *results = [aContext executeFetchRequest:request error:&error];
-    [request release];
     
 	if ([results count] > 0)
 	{
@@ -140,7 +144,6 @@ void ShowError(NSString* action, NSError* error);
 	
 	NSError *error;
 	NSArray *results = [aContext executeFetchRequest:request error:&error];
-	[request release];
 	
 	return results;
 }
@@ -214,7 +217,6 @@ void ShowError(NSString* action, NSError* error);
 	
 	NSError *error;
 	NSArray *results = [aContext executeFetchRequest:request error:&error];
-    [request release];
 	return results;	
 }
 
@@ -266,9 +268,9 @@ void ShowError(NSString* action, NSError* error);
 + (NSString*) uniqueID;
 {
     CFUUIDRef uuidObj = CFUUIDCreate(nil);
-    NSString *newUUID = ( NSString*) CFMakeCollectable(CFUUIDCreateString(nil, uuidObj));
+    NSString *newUUID = (__bridge  NSString*) CFUUIDCreateString(nil, uuidObj);
     CFRelease(uuidObj);
-    return [newUUID autorelease];
+    return newUUID;
 }
 
 #pragma mark -
@@ -325,14 +327,11 @@ void ShowError(NSString* action, NSError* error);
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:key ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [request setSortDescriptors:sortDescriptors];
-    [sortDescriptors release];
-    [sortDescriptor release];
     
     [request setFetchLimit:1];
     
     NSError *error = nil;
     NSArray *results = [aContext executeFetchRequest:request error:&error];
-    [request release];
     if (results == nil) 
     {
         ShowError(@"Error in fetchEntityWhithMaxValueForKey:andPredicate:\n", error);

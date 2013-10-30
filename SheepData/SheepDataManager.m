@@ -117,22 +117,35 @@ static SheepDataManager *sharedSingleton;
  Creates, retains, and returns the managed object model for the application 
  by merging all of the models found in the application bundle.
  */
-- (NSManagedObjectModel *) managedObjectModel 
-{
-    if (managedObjectModel) return managedObjectModel;
+//- (NSManagedObjectModel *) managedObjectModel 
+//{
+//    if (managedObjectModel) return managedObjectModel;
+//
+//	NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:managedObjectModelName ofType:@"momd"];
+//	
+//	if([path length] > 0)
+//	{
+//		NSURL *momURL = [NSURL fileURLWithPath:path];
+//		managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
+//	}		
+//	else
+//	{
+//		managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];   
+//	}
+//	
+//    return managedObjectModel;
+//}
 
-	NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:managedObjectModelName ofType:@"mom"];
-	
-	if([path length] > 0)
-	{
-		NSURL *momURL = [NSURL fileURLWithPath:path];
-		managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
-	}		
-	else
-	{
-		managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];   
-	}
-	
+- (NSManagedObjectModel *) managedObjectModel {
+    
+    if (managedObjectModel != nil) {
+        return managedObjectModel;
+    }
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Pins" ofType:@"momd"];
+    NSURL *momURL = [NSURL fileURLWithPath:path];
+    managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
+    
     return managedObjectModel;
 }
 
@@ -228,7 +241,7 @@ static SheepDataManager *sharedSingleton;
     NSUndoManager *undoManager = [[NSUndoManager alloc] init];
     [undoManager setLevelsOfUndo:999];
     [managedObjectContext setUndoManager:undoManager];
-    
+    [managedObjectContext setMergePolicy:NSOverwriteMergePolicy];
     return managedObjectContext;
 }
 
@@ -247,6 +260,7 @@ static SheepDataManager *sharedSingleton;
     }
     NSManagedObjectContext * newContext = [[NSManagedObjectContext alloc] init];
     [newContext setPersistentStoreCoordinator: coordinator];
+    [newContext setMergePolicy:NSOverwriteMergePolicy];
 	
     return newContext;
 }

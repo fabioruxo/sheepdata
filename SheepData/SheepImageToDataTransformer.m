@@ -46,15 +46,16 @@
 - (id)transformedValue:(id)value 
 {
     NSBitmapImageRep *rep = [[value representations] objectAtIndex: 0];
-    NSData *data = [rep representationUsingType: NSPNGFileType
-                                     properties: nil];
+    NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.7] forKey:NSImageCompressionFactor];
+    NSData *data = [rep representationUsingType: NSJPEGFileType
+                                     properties: imageProps];
 	return data;
 }
 
 - (id)reverseTransformedValue:(id)value 
 {
     NSImage *uiImage = [[NSImage alloc] initWithData:value];
-	return uiImage;;
+	return uiImage;
 }
 
 @end

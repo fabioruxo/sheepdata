@@ -45,17 +45,24 @@
 
 - (id)transformedValue:(id)value 
 {
+#if TARGET_OS_IPHONE
+    return UIImagePNGRepresentation(value);
+#else
     NSBitmapImageRep *rep = [[value representations] objectAtIndex: 0];
     NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.7] forKey:NSImageCompressionFactor];
     NSData *data = [rep representationUsingType: NSJPEGFileType
                                      properties: imageProps];
-	return data;
+    return data;
+#endif
 }
 
 - (id)reverseTransformedValue:(id)value 
 {
-    NSImage *uiImage = [[NSImage alloc] initWithData:value];
-	return uiImage;
+#if TARGET_OS_IPHONE
+    return [UIImage imageWithData:value];
+#else
+    return [[NSImage alloc] initWithData:value];
+#endif
 }
 
 @end

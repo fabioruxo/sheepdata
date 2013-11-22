@@ -235,7 +235,7 @@ static SheepDataManager *sharedSingleton;
 		NSLog(@"CoreDataManager Error: %@", error);
         return nil;
     }
-    managedObjectContext = [[NSManagedObjectContext alloc] init];
+     managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [managedObjectContext setPersistentStoreCoordinator: coordinator];
 	
     NSUndoManager *undoManager = [[NSUndoManager alloc] init];

@@ -37,8 +37,6 @@ void ShowError(NSString* action, NSError* error);
 
 @implementation SheepEntity : NSManagedObject
 
-//@synthesize currentContext;
-
 + (NSManagedObjectContext*) defaultContext
 {
     return [SheepDataManager sharedInstance].managedObjectContext;  

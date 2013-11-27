@@ -111,6 +111,7 @@
 	fetches all entities with a given entity description
  */
 + (NSArray*) fetchEntities;
+
 /** 
  For multithreading with a different context passed in
  */
@@ -130,6 +131,7 @@
 	Convenience method for fetching a list of entities by property/value.
  */
 + (NSArray*) fetchEntitiesWhereProperty:(NSString *)aProperty equalsValue:(id) aValue;
+
 /** 
  For multithreading with a different context passed in
  */
@@ -139,6 +141,7 @@
 	Convenience method for fetching a list of entities given a predicate
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate;
+
 /** 
  For multithreading with a different context passed in
  */
@@ -148,6 +151,7 @@
 	Convenience method for fetching a list of entities given a predicate and a sort descriptor
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate*) aPredicate andSortDescriptor:(NSSortDescriptor*) aSortDescriptor;
+
 /** 
  For multithreading with a different context passed in
  */
@@ -172,7 +176,6 @@
  For multithreading with a different context passed in
  */
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit inContext:(NSManagedObjectContext*)aContext;
-
 + (NSArray*) fetchEntitiesWithPredicate:(NSPredicate *)aPredicate andSortDescriptors:(NSArray*) sortDescriptors andLimit:(NSInteger) aLimit andOffset:(NSInteger)anOffset inContext:(NSManagedObjectContext*)aContext;
 
 #pragma mark -
@@ -181,14 +184,12 @@
 	removes the current entity
  */
 - (void) deleteEntity;
-
 - (void) deleteEntityInContext:(NSManagedObjectContext*)aContext;
 
 /**
 	removes an array of entities in one shot
  */
 + (void) deleteEntities: (NSArray*) entities;
-
 + (void) deleteEntities: (NSArray*) entities inContext:(NSManagedObjectContext*) aContext;
 
 #pragma mark -
@@ -197,14 +198,12 @@
 	checks whether an entity with a given property/value already exists. Useful for entities with unique-like fields.
  */
 + (BOOL) checkIfEntityExistsWhereProperty:(NSString *)aProperty equalsValue:(id) aValue;
-
 + (BOOL) checkIfEntityExistsWhereProperty:(NSString *)aProperty equalsValue:(id) aValue inContext:(NSManagedObjectContext*)aContext;
 
 /**
  checks whether an entity with a given predicate already exists. Useful for entities with unique-like fields.
  */
 + (BOOL) checkIfEntityExistsWithPredicate:(NSPredicate*) aPredicate;
-
 + (BOOL) checkIfEntityExistsWithPredicate:(NSPredicate*) aPredicate inContext:(NSManagedObjectContext*)aContext;
 
 #pragma mark -
@@ -213,7 +212,6 @@
  * Fetches the entity with the max value for a given property
  */
 + (id) fetchEntityWhithMaxValueForKey:(NSString*)key;
-
 + (id) fetchEntityWhithMaxValueForKey:(NSString*)key inContext:(NSManagedObjectContext*)aContext;
 
 /**

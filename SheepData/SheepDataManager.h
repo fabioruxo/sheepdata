@@ -46,8 +46,7 @@
 /**
  CoreData manager class. Encapsulates the persistence store as well as the managed object model and context in one singleton.
  Only to be used if a single context is shared throughout the whole application. 
- 
- N.B. The init() method is not inhibited or hidden so may there be the use for multiple managers (and contexts) so be it... just don't use the singleton instance or use it in combination with another object for local context to context operations.
+ UPDATE: You can now use multiple contexts creating new ones (children) whenever you like. Use the main moc as parent.
  */
 @interface SheepDataManager : NSObject 
 {
@@ -78,8 +77,14 @@
  */
 + (SheepDataManager *)sharedInstance;
 
+/*
+ Used to create a test sqlite db.
+ */
 - (void) setTestMode:(NSString*)testedAppName;
 
+/*
+ To create a child context from managedObjectContext (secondary thread operations)
+ */
 - (NSManagedObjectContext *) newManagedObjectContext;
 
 @end

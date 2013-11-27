@@ -1,5 +1,5 @@
 /* *****************************************************************
- *                     ObjectiveSheep CoreData        
+ *                     SheepData      
  * -----------------------------------------------------------------
  
  Copyright (c) 2010, Fabio Russo
@@ -84,17 +84,21 @@ static SheepDataManager *sharedSingleton;
 
 /**
  Returns the support directory for the application, used to store the Core Data
- store file.  This code uses a directory named "Lily" for
- the content, either in the NSApplicationSupportDirectory location or (if the
+ store file.  This will be either in the NSApplicationSupportDirectory location or (if the
  former cannot be found), the system's temporary directory.
  */
-- (NSString *) applicationSupportDirectory 
+- (NSString *) applicationSupportDirectory // OS X
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
     return [basePath stringByAppendingPathComponent:coreDataFolder];
 }
 
+// Returns the URL to the application's Documents directory. // IOS
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
 /**
  Returns the external records directory for the application.
  This code uses a directory named like the current target for the content, 
@@ -113,38 +117,23 @@ static SheepDataManager *sharedSingleton;
 #pragma mark -
 #pragma mark Core Data specific MOM/Store/Context
 
-/**
- Creates, retains, and returns the managed object model for the application 
- by merging all of the models found in the application bundle.
- */
-//- (NSManagedObjectModel *) managedObjectModel 
-//{
-//    if (managedObjectModel) return managedObjectModel;
-//
-//	NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:managedObjectModelName ofType:@"momd"];
-//	
-//	if([path length] > 0)
-//	{
-//		NSURL *momURL = [NSURL fileURLWithPath:path];
-//		managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
-//	}		
-//	else
-//	{
-//		managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];   
-//	}
-//	
-//    return managedObjectModel;
-//}
-
 - (NSManagedObjectModel *) managedObjectModel {
     
     if (managedObjectModel != nil) {
         return managedObjectModel;
     }
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Pins" ofType:@"momd"];
-    NSURL *momURL = [NSURL fileURLWithPath:path];
-    managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:managedObjectModelName ofType:@"momd"];
+
+    if([path length] > 0)
+    {
+        NSURL *momURL = [NSURL fileURLWithPath:path];
+        managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
+    }
+    else
+    {
+        managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    }
     
     return managedObjectModel;
 }
@@ -168,7 +157,11 @@ static SheepDataManager *sharedSingleton;
     }
 	
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    #if TARGET_OS_IPHONE
+    NSString *applicationSupportDirectory = [[self applicationDocumentsDirectory] path];
+    #else
     NSString *applicationSupportDirectory = [self applicationSupportDirectory];
+    #endif
     NSError *error = nil;
     
     if ( ![fileManager fileExistsAtPath:applicationSupportDirectory isDirectory:NULL] ) 

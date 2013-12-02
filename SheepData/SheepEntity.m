@@ -55,7 +55,12 @@ void ShowError(NSString* action, NSError* error);
 
 #pragma mark -
 #pragma mark Initialization
-- (id) initEntity 
+-(id) init
+{
+    return [self initNonEnitity];
+}
+
+- (id) initEntity
 {
     self = [self initEntityInContext:[SheepDataManager sharedInstance].managedObjectContext];
     return self;
@@ -73,7 +78,7 @@ void ShowError(NSString* action, NSError* error);
 - (id) initNonEnitity
 {
     NSEntityDescription * entity = [NSEntityDescription entityForName:NSStringFromClass([self class]) 
-											   inManagedObjectContext:nil];
+											   inManagedObjectContext:[SheepDataManager sharedInstance].managedObjectContext];
 	self = [self initWithEntity:entity insertIntoManagedObjectContext:nil];
 	return self;
 }

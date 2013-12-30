@@ -50,8 +50,15 @@
 #else
     NSBitmapImageRep *rep = [[value representations] objectAtIndex: 0];
     NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.7] forKey:NSImageCompressionFactor];
-    NSData *data = [rep representationUsingType: NSJPEGFileType
-                                     properties: imageProps];
+    NSData *data;
+    @try
+    {
+        data = [rep representationUsingType:NSJPEGFileType properties:imageProps];
+    }
+    @catch (id exception)
+    {
+        data = [value TIFFRepresentation];
+    }
     return data;
 #endif
 }

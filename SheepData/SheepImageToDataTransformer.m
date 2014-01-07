@@ -53,7 +53,8 @@
     NSData *data;
     @try
     {
-        data = [rep representationUsingType:NSJPEGFileType properties:imageProps];
+        data = [rep representationUsingType:NSPNGFileType properties:imageProps];
+//        data = [rep representationUsingType:NSJPEGFileType properties:imageProps];
     }
     @catch (id exception)
     {

@@ -36,9 +36,9 @@
 {
 }
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSManagedObject * mother;
-@property (nonatomic, retain) NSManagedObject * father;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSManagedObject * mother;
+@property (nonatomic, strong) NSManagedObject * father;
 
 @end
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E73D1CEF-C548-418D-A363-2E4BDEE0EDB5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SheepData</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F7414454-E4E3-499F-B4EF-0B21522CE0A0</key>
+		<string>ssh://github.com/objectivesheep/sheepdata.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SheepData.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F7414454-E4E3-499F-B4EF-0B21522CE0A0</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/objectivesheep/sheepdata.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F7414454-E4E3-499F-B4EF-0B21522CE0A0</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F7414454-E4E3-499F-B4EF-0B21522CE0A0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>sheepdata</string>
+		</dict>
+	</array>
+</dict>
+</plist>

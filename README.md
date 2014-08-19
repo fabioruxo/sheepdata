@@ -1,15 +1,10 @@
 # SheepData
 
-[![CI Status](http://img.shields.io/travis/Fabio Russo/SheepData.svg?style=flat)](https://travis-ci.org/Fabio Russo/SheepData)
-[![Version](https://img.shields.io/cocoapods/v/SheepData.svg?style=flat)](http://cocoadocs.org/docsets/SheepData)
-[![License](https://img.shields.io/cocoapods/l/SheepData.svg?style=flat)](http://cocoadocs.org/docsets/SheepData)
-[![Platform](https://img.shields.io/cocoapods/p/SheepData.svg?style=flat)](http://cocoadocs.org/docsets/SheepData)
+SheepData is a syntactic sugar library for using CoreData with an ActiveRecord mindset
 
 ## Usage
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
+http://objectivesheep.com/blog/sheepdata/
 
 ## Installation
 

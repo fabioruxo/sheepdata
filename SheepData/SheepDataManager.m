@@ -43,6 +43,7 @@
 @synthesize managedObjectModel;
 @synthesize managedObjectContext;
 @synthesize managedObjectModelName;
+@synthesize secondaryObjectContext;
 
 #pragma mark -
 #pragma mark Init/Dealloc
@@ -256,5 +257,12 @@ static SheepDataManager *sharedSingleton;
     [newContext setMergePolicy:NSOverwriteMergePolicy];
 	
     return newContext;
+}
+
+- (NSManagedObjectContext *) secondaryObjectContext
+{
+    NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    temporaryContext.parentContext = self.managedObjectContext;
+    return temporaryContext;
 }
 @end

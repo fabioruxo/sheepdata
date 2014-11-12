@@ -69,6 +69,8 @@
 @property (strong, readwrite) NSString *coreDataFilename;
 @property (strong, readwrite) NSString *externalRecordExtension;
 @property (strong, readwrite) NSString *managedObjectModelName;
+@property (strong, readwrite) NSURL *modelURL;
+@property (strong, readwrite) NSURL *persistentStoreURL;
 
 /**
  * If nothing is done some assumptions are made:

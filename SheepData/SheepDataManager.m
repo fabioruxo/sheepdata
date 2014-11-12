@@ -44,6 +44,8 @@
 @synthesize managedObjectContext;
 @synthesize managedObjectModelName;
 @synthesize secondaryObjectContext;
+@synthesize modelURL;
+@synthesize persistentStoreURL;
 
 #pragma mark -
 #pragma mark Init/Dealloc
@@ -118,9 +120,11 @@ static SheepDataManager *sharedSingleton;
 #pragma mark -
 #pragma mark Core Data specific MOM/Store/Context
 
-- (NSManagedObjectModel *) managedObjectModel {
+- (NSManagedObjectModel *) managedObjectModel
+{
     
-    if (managedObjectModel != nil) {
+    if (managedObjectModel != nil)
+    {
         return managedObjectModel;
     }
     
@@ -128,8 +132,8 @@ static SheepDataManager *sharedSingleton;
 
     if([path length] > 0)
     {
-        NSURL *momURL = [NSURL fileURLWithPath:path];
-        managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
+        self.modelURL = [NSURL fileURLWithPath:path];
+        managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:self.modelURL];
     }
     else
     {
@@ -188,7 +192,7 @@ static SheepDataManager *sharedSingleton;
 	
 	if (YOUR_STORE_TYPE == NSSQLiteStoreType)
 		coreDataFilename = [coreDataFilename stringByAppendingString:@".sqlite"];
-    NSURL *url = [NSURL fileURLWithPath: [applicationSupportDirectory stringByAppendingPathComponent: coreDataFilename]];
+    self.persistentStoreURL = [NSURL fileURLWithPath: [applicationSupportDirectory stringByAppendingPathComponent: coreDataFilename]];
     
     // set store options to enable spotlight indexing
     NSMutableDictionary *storeOptions = [NSMutableDictionary dictionary];
@@ -199,7 +203,7 @@ static SheepDataManager *sharedSingleton;
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: mom];
     if (![persistentStoreCoordinator addPersistentStoreWithType:YOUR_STORE_TYPE 
 												  configuration:nil 
-															URL:url 
+															URL:self.persistentStoreURL
 														options:storeOptions 
 														  error:&error]){
 		NSLog(@"CoreDataManager Error: %@", error);
@@ -235,7 +239,8 @@ static SheepDataManager *sharedSingleton;
     NSUndoManager *undoManager = [[NSUndoManager alloc] init];
     [undoManager setLevelsOfUndo:999];
     [managedObjectContext setUndoManager:undoManager];
-    [managedObjectContext setMergePolicy:NSOverwriteMergePolicy];
+//    [managedObjectContext setMergePolicy:NSOverwriteMergePolicy];
+    managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
     return managedObjectContext;
 }
 

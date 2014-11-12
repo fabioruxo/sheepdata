@@ -11,17 +11,17 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>383213A7A7AE01A74E45E868545B0FC5543E306D</key>
-		<string>ssh://github.com/objectivesheep/sheepdata.git</string>
+		<string>github.com:objectivesheep/sheepdata.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>SheepData.xcodeproj/project.xcworkspace</string>
+	<string>SheepData.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>383213A7A7AE01A74E45E868545B0FC5543E306D</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/objectivesheep/sheepdata.git</string>
+	<string>github.com:objectivesheep/sheepdata.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

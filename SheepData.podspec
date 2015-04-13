@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SheepData"
-  s.version          = "0.2.0"
+  s.version          = "0.3.0"
   s.summary          = "SheepData is a core data framework with ActiveRecord like syntax and lots of sugar"
 
   s.homepage         = "https://github.com/objectivesheep/SheepData"
